@@ -108,3 +108,27 @@ Resources:
      Tags:
         - Key: Name
           Value: !Sub ${EnvironmentName} Private Subnet (AZ2)
+
+  NatGatewayEIP1:
+    Type: AWS::EC2::EIP # Elastic IP
+    DependsOn: InternetGatewayAttachment # Elastic IP's allocation happens only after InternetGatewayAttachment is created.
+    Properties:
+      Domain: vpc # set 'vpc' to allocate NAT address to instances in VPC.
+
+  NatGatewayEIP2:
+    Type: AWS::EC2::EIP
+    DependsOn: InternetGatewayAttachment
+    Properties:
+      Domain: VPC
+
+  NatGateway1:
+    Type: AWS::EC2::NatGateway
+    Properties:
+      AllocationId: !GetAtt NatGatewayEIP1.AllocationId
+      SubnetId: !Ref PublicSubnet1
+
+  NatGateway2:
+    Type: AWS::EC2::NatGateway
+    Properties:
+      AllocationId: !GetAtt NatGatewayEIP2.AllocationId
+      SubnetId: !Ref PublicSubnet2
