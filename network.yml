@@ -171,8 +171,7 @@ Resources:
         - Key: Name
           Value: !Sub ${EnvironmentName} Private Routes (AZ1)
 
-  # private subnets send or receive traffic from outside through NAT gateway.
-  # external networks and public subnets will see public IP address which is assigned to NAT gateway.
+  # private subnets receive traffic from public subnets through this router.
   PrivateRoute1:
     Type: AWS::EC2::Route
     Properties:
@@ -195,8 +194,7 @@ Resources:
         - Key: Name
           Value: !Sub ${EnvironmentName} Private Routes (AZ2)
 
-  # private subnets send or receive traffic from outside through NAT gateway.
-  # external networks and public subnets will see public IP address which is assigned to NAT gateway.
+  # private subnets receive traffic from public subnets through this router.
   PrivateRoute2:
     Type: AWS::EC2::Route
     Properties:
