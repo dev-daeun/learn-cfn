@@ -29,7 +29,7 @@ Resources:
       IamInstanceProfile: arn:aws:iam::133143555446:instance-profile/udacity-demo-profile
       ImageId: ami-06d51e91cea0dac8d
       SecurityGroups:
-        - Fn::ImportValue: !Sub "${EnvironmentName}-SECURITY-GROUP"
+        - Fn::ImportValue: !Sub ${EnvironmentName}-SECURITY-GROUP
 
       InstanceType: t3.small
       BlockDeviceMappings:
@@ -41,13 +41,13 @@ Resources:
     Type: AWS::AutoScaling::AutoScalingGroup
     Properties:
       VPCZoneIdentifier:
-        - Fn::ImportValue: !Sub "${EnvironmentName}-PRIV-NETS"
+        - Fn::ImportValue: !Sub ${EnvironmentName}-PRIV-NETS
 
       LaunchConfigurationName:
         !Ref LaunchConfigforWebApp
 
-      MinSize: '3'
-      MaxSize: '5'
+      MinSize: 3
+      MaxSize: 5
 
 
 Outputs:
