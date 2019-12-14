@@ -2,10 +2,10 @@ Description:
   Written by DaEun Kim.
 
   This template deploys
-    * a VPC with 2 public subnets and 2 private subnets spread across 2 Availability Zones.
-    * an Internet Gateway routing on the public subnets by default.
-    * a pair of NAT Gateways (one on each AZ).
-    * a router for private subnets.
+  * a VPC with 2 public subnets and 2 private subnets spread across 2 Availability Zones.
+  * an Internet Gateway routing on the public subnets by default.
+  * a pair of NAT Gateways (one on each AZ).
+  * a router for private subnets.
 
 # Don't hard-code resource value in CloudFormation script or you could break already tested script.
 # Make parameters and give them to this script.
@@ -101,11 +101,11 @@ Resources:
   PrivateSubnet2:
     Type: AWS::EC2::Subnet
     Properties:
-     VpcId: !Ref VPC
-     AvailabilityZone: !Select [ 1, !GetAZs '' ]
-     CidrBlock: !Ref PrivateSubnet2CIDR
-     MapPublicIpOnLaunch: false
-     Tags:
+      VpcId: !Ref VPC
+      AvailabilityZone: !Select [ 1, !GetAZs '' ]
+      CidrBlock: !Ref PrivateSubnet2CIDR
+      MapPublicIpOnLaunch: false
+      Tags:
         - Key: Name
           Value: !Sub ${EnvironmentName} Private Subnet (AZ2)
 
@@ -207,3 +207,69 @@ Resources:
     Properties:
       RouteTableId: !Ref PrivateRouteTable2
       SubnetId: !Ref PrivateSubnet2
+
+
+
+# Outputs section declares output values that you can import into other stacks (to create cross-stack references),
+# return in response (to describe stack calls), or view on the AWS CloudFormation console.
+Outputs:
+
+  VPC:
+    Description: A reference to the created VPC
+    Value: !Ref VPC
+    Export:
+      Name: !Sub ${EnvironmentName}-VPCID
+
+  VPCPublicRouteTable:
+    Description: Public Routing
+    Value: !Ref PublicRouteTable
+    Export:
+      Name: !Sub ${EnvironmentName}-PUB-RT
+
+  VPCPrivateRouteTable1:
+    Description: Private Routing AZ1
+    Value: !Ref PrivateRouteTable1
+    Export:
+      Name: !Sub ${EnvironmentName}-PRI1-RT
+
+  VPCPrivateRouteTable2:
+    Description: Private Routing AZ2
+    Value: !Ref PrivateRouteTable2
+    Export:
+      Name: !Sub ${EnvironmentName}-PRI2-RT
+
+  PublicSubnets:
+    Description: A list of the public subnets
+    Value: !Join [ ",", [ !Ref PublicSubnet1, !Ref PublicSubnet2 ]]
+    Export:
+      Name: !Sub ${EnvironmentName}-PUB-NETS
+
+  PrivateSubnets:
+    Description: A list of the private subnets
+    Value: !Join [ ",", [ !Ref PrivateSubnet1, !Ref PrivateSubnet2 ]]
+    Export:
+      Name: !Sub ${EnvironmentName}-PRIV-NETS
+
+  PublicSubnet1:
+    Description: A reference to the public subnet in the 1st Availability Zone
+    Value: !Ref PublicSubnet1
+    Export:
+      Name: !Sub ${EnvironmentName}-PUB1-SN
+
+  PublicSubnet2:
+    Description: A reference to the public subnet in the 2nd Availability Zone
+    Value: !Ref PublicSubnet2
+    Export:
+      Name: !Sub ${EnvironmentName}-PUB2-SN
+
+  PrivateSubnet1:
+    Description: A reference to the private subnet in the 1st Availability Zone
+    Value: !Ref PrivateSubnet1
+    Export:
+      Name: !Sub ${EnvironmentName}-PRI1-SN
+
+  PrivateSubnet2:
+    Description: A reference to the private subnet in the 2nd Availability Zone
+    Value: !Ref PrivateSubnet2
+    Export:
+      Name: !Sub ${EnvironmentName}-PRI2-SN
