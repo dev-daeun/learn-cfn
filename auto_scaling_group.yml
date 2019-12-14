@@ -25,6 +25,7 @@ Resources:
           aws s3 cp s3://udacity-demo-1/udacity.zip .
           unzip -o udacity.zip
 
+      IamInstanceProfile: arn:aws:iam::133143555446:user/udacity-devops
       ImageId: ami-005bdb005fb00e791
       SecurityGroups:
         Fn::ImportValue:
