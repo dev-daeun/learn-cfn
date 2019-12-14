@@ -41,7 +41,7 @@ Resources:
       Protocol: HTTP
 
       DefaultActions:
-        - Type: foward
+        - Type: forward
           TargetGroupArn: !Ref TargetGroupforWebApp
 
   LBListenerRule:
