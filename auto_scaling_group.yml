@@ -47,3 +47,17 @@ Resources:
 
       MinSize: '3'
       MaxSize: '5'
+
+
+Outputs:
+  LaunchConfigforWebApp:
+    Description: A reference to launch configuration for auto-scaling
+    Value: !Ref LaunchConfigforWebApp
+    Export:
+      Name: !Sub ${EnvironmentName}-LAUNCH-CONFIG
+
+  AutoScalingGroupFroWebApp:
+    Description: A reference to auto-scaling group
+    Value: !Ref AutoScalingGroupFroWebApp
+    Export:
+      Name: !Sub ${EnvironmentName}-AUTO-SCALING
