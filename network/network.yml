@@ -4,8 +4,8 @@ Description:
   This template deploys
   * a VPC with 2 public subnets and 2 private subnets spread across 2 Availability Zones.
   * an Internet Gateway routing on the public subnets by default.
-  * a pair of NAT Gateways (one on each AZ).
-  * a router for private subnets.
+  * a pair of NAT Gateways (one on each public subnet in each AZ).
+  * 1 router for subnets and 2 routers for each private subnet.
 
 # Don't hard-code resource value in CloudFormation script or you could break already tested script.
 # Make parameters and give them to this script.
