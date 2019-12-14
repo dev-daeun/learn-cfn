@@ -13,8 +13,8 @@ Resources:
     Type: AWS::ElasticLoadBalancingV2::LoadBalancer
     Properties:
       Subnets:
-        - Fn::ImportValue: !Sub "${EnvironmentName}-PUB1-SN"
-        - Fn::ImportValue: !Sub "${EnvironmentName}-PUB2-SN"
+        - Fn::ImportValue: !Sub ${EnvironmentName}-PUB1-SN
+        - Fn::ImportValue: !Sub ${EnvironmentName}-PUB2-SN
 
   TargetGroupforWebApp:
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
@@ -30,14 +30,14 @@ Resources:
       # if load balancer requests 5 times to target and it returns Internal Server Error or does not respond, it is considered healthy.
       UnhealthyThresholdCount: 5
       VpcId:
-        Fn::ImportValue: !Sub "${EnvironmentName}-VPCID"
+        Fn::ImportValue: !Sub ${EnvironmentName}-VPCID
 
   LBListener:
     Type: AWS::ElasticLoadBalancingV2::Listener
     Properties:
       LoadBalancerArn: !Ref LBforWebApp
 
-      Port: '80'
+      Port: 80
       Protocol: HTTP
 
       DefaultActions:
@@ -57,11 +57,3 @@ Resources:
 
       ListenerArn: !Ref LBListener
       Priority: 1
-
-
-Outputs:
-  TargetGroupforWebApp:
-    Description: A reference to load-balancer's target group
-    Value: !Ref TargetGroupforWebApp
-    Export:
-      Name: ${EnvironmentName}-TARGET-GROUP
