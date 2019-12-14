@@ -10,6 +10,7 @@ Parameters:
 
 
 Resources:
+  # defines WHAT to launch when spinning up new server.
   LaunchConfigforWebApp:
     Type: AWS::AutoScaling::LaunchConfiguration
     Properties:
@@ -35,3 +36,15 @@ Resources:
           EBS:
             VolumeSize: "10"
 
+  AutoScalingGroupFroWebApp:
+    Type: AWS::AutoScaling::AutoScalingGroup
+    Properties:
+      VPCZoneIdentifier:
+        Fn::ImportValue:
+          !Sub "${EnvironmentName}-PRIV-NETS"
+
+      LaunchConfigurationName:
+        !Ref LaunchConfigforWebApp
+
+      MinSize: '3'
+      MaxSize: '5'
