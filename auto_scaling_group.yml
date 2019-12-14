@@ -28,21 +28,19 @@ Resources:
       IamInstanceProfile: arn:aws:iam::133143555446:user/udacity-devops
       ImageId: ami-06d51e91cea0dac8d
       SecurityGroups:
-        Fn::ImportValue:
-         !Sub "${EnvironmentName}-SECURITY-GROUP"
+        - Fn::ImportValue: !Sub "${EnvironmentName}-SECURITY-GROUP"
 
       InstanceType: t3.small
       BlockDeviceMappings:
         - DeviceName: "/dev/sdk"
-          EBS:
+          Ebs:
             VolumeSize: "10"
 
   AutoScalingGroupFroWebApp:
     Type: AWS::AutoScaling::AutoScalingGroup
     Properties:
       VPCZoneIdentifier:
-        Fn::ImportValue:
-          !Sub "${EnvironmentName}-PRIV-NETS"
+        - Fn::ImportValue: !Sub "${EnvironmentName}-PRIV-NETS"
 
       LaunchConfigurationName:
         !Ref LaunchConfigforWebApp
