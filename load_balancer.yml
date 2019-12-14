@@ -1,0 +1,34 @@
+Description:
+  Written by DaEun Kim.
+  This template deploys a load balancer targeting instances in public subnets.
+
+Parameters:
+  EnvironmentName:
+    Description: An environment name which will be prefixed to resource names
+    Type: String
+
+
+Resources:
+  TargetGroupforWebApp:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      HealthCheckIntervalSeconds: 35
+      HealthCheckPath: /
+      HealthCheckProtocol: HTTP
+      HealthCheckTimeoutSeconds: 30
+      # if load balancer requests 2 times to target and it returns OK 2 times, it is considered healthy.
+      HealthyThresholdCount: 2
+      Port: 80
+      Protocol: HTTP
+      # if load balancer requests 5 times to target and it returns Internal Server Error or does not respond, it is considered healthy.
+      UnhealthyThresholdCount: 5
+      VpcId:
+        Fn::ImportValue: !Sub "${EnvironmentName}-VPCID"
+
+
+Outputs:
+  TargetGroupforWebApp:
+    Description: A reference to load-balancer's target group
+    Value: !Ref TargetGroupforWebApp
+    Export:
+      Name: ${EnvironmentName}-TARGET-GROUP
