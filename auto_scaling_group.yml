@@ -25,7 +25,8 @@ Resources:
           aws s3 cp s3://udacity-demo-1/udacity.zip .
           unzip -o udacity.zip
 
-      IamInstanceProfile: arn:aws:iam::133143555446:user/udacity-devops
+      # should set instance profile, not IAM user's profile
+      IamInstanceProfile: arn:aws:iam::133143555446:instance-profile/udacity-demo-profile
       ImageId: ami-06d51e91cea0dac8d
       SecurityGroups:
         - Fn::ImportValue: !Sub "${EnvironmentName}-SECURITY-GROUP"
